@@ -7,22 +7,23 @@
  * THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
  * See the Mulan PSL v2 for more details.
  */
-package org.springframework.boot;
+package com.truthbean;
 
-import com.truthbean.debbie.boot.DebbieApplication;
-import com.truthbean.debbie.boot.DebbieApplicationFactory;
+import com.truthbean.debbie.io.MediaType;
+import com.truthbean.debbie.mvc.router.Router;
+import com.truthbean.debbie.watcher.Watcher;
 
 /**
  * @author TruthBean/Rogar·Q
  * @since 0.1.0
- * Created on 2020-06-23 11:28.
+ * Created on 2020-07-04 18:05.
  */
-public class SpringApplication {
+@Watcher
+@Router
+public class EchoController {
 
-    public static void run(Class<?> primarySource, String... args) {
-        DebbieApplicationFactory factory = DebbieApplicationFactory.configure(primarySource);
-        // todo
-        DebbieApplication application = factory.postCreateApplication();
-        application.start(args);
+    @Router(value = "/echo", responseType = MediaType.TEXT_ANY_UTF8)
+    public String echo() {
+        return "echo";
     }
 }

@@ -6,12 +6,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.truthbean.debbie.bean.BeanComponent;
 import org.springframework.core.annotation.AliasFor;
 
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
+@BeanComponent
 public @interface Service {
 
 	/**

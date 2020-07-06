@@ -9,6 +9,8 @@
  */
 package org.springframework.boot.autoconfigure;
 
+import com.truthbean.debbie.boot.DebbieBootApplication;
+
 import java.lang.annotation.*;
 
 /**
@@ -20,5 +22,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
+@DebbieBootApplication
 public @interface SpringBootApplication {
 }
