@@ -11,19 +11,22 @@ package com.truthbean;
 
 import com.truthbean.debbie.io.MediaType;
 import com.truthbean.debbie.mvc.router.Router;
-import com.truthbean.debbie.watcher.Watcher;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author TruthBean/Rogar·Q
  * @since 0.1.0
  * Created on 2020-07-04 18:05.
  */
-@Watcher
-@Router
+@RestController
 public class EchoController {
+
+    @Autowired
+    private EchoService echoService;
 
     @Router(value = "/echo", responseType = MediaType.TEXT_ANY_UTF8)
     public String echo() {
-        return "echo";
+        return echoService.echo();
     }
 }

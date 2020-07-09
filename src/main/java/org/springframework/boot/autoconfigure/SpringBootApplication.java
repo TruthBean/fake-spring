@@ -9,7 +9,9 @@
  */
 package org.springframework.boot.autoconfigure;
 
+import com.truthbean.debbie.bean.*;
 import com.truthbean.debbie.boot.DebbieBootApplication;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.annotation.*;
 
@@ -22,6 +24,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@DebbieBootApplication
+@BeanComponent
+@DebbieBootApplication(customInjectType = Autowired.class)
 public @interface SpringBootApplication {
 }

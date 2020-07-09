@@ -15,7 +15,7 @@ import org.springframework.core.annotation.AliasFor;
 @Documented
 @Component
 @BeanComponent
-public @interface Service {
+public @interface Repository {
 
     /**
      * The value may indicate a suggestion for a logical component name,
