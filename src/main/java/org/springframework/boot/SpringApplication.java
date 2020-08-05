@@ -9,8 +9,14 @@
  */
 package org.springframework.boot;
 
+import com.truthbean.debbie.bean.BeanType;
+import com.truthbean.debbie.bean.DebbieBeanInfo;
+import com.truthbean.debbie.bean.GlobalBeanFactory;
 import com.truthbean.debbie.boot.DebbieApplication;
 import com.truthbean.debbie.boot.DebbieApplicationFactory;
+import com.truthbean.debbie.event.DebbieEventPublisher;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * @author TruthBean/Rogar·Q
@@ -19,10 +25,27 @@ import com.truthbean.debbie.boot.DebbieApplicationFactory;
  */
 public class SpringApplication {
 
+    private static final SpringApplication instance = new SpringApplication();
+
+    private SpringApplication() {
+    }
+
     public static void run(Class<?> primarySource, String... args) {
+        System.setProperty("debbie.web.default.response.allow-client", "true");
+        System.setProperty("debbie.web.default.response.types", "application/json;Charset=UTF-8");
+        DebbieBeanInfo<ApplicationStartedEvent> beanInfo = new DebbieBeanInfo<>(ApplicationStartedEvent.class);
+        beanInfo.setBean(new ApplicationStartedEvent(instance, args, new ConfigurableApplicationContext()));
+        beanInfo.setBeanType(BeanType.SINGLETON);
+        beanInfo.addBeanName("applicationStartedEvent");
         DebbieApplicationFactory factory = DebbieApplicationFactory.configure(primarySource);
+        factory.getBeanInitialization().initSingletonBean(beanInfo);
+        factory.refreshBeans();
+
         // todo
         DebbieApplication application = factory.postCreateApplication();
+        GlobalBeanFactory globalBeanFactory = factory.getGlobalBeanFactory();
+        DebbieEventPublisher eventPublisher = globalBeanFactory.factory("eventPublisher");
+
         application.start(args);
     }
 }

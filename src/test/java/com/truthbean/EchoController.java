@@ -9,9 +9,8 @@
  */
 package com.truthbean;
 
-import com.truthbean.debbie.io.MediaType;
-import com.truthbean.debbie.mvc.router.Router;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -25,7 +24,7 @@ public class EchoController {
     @Autowired
     private EchoService echoService;
 
-    @Router(value = "/echo", responseType = MediaType.TEXT_ANY_UTF8)
+    @RequestMapping("/echo")
     public String echo() {
         return echoService.echo();
     }

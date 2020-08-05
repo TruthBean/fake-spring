@@ -1,19 +1,13 @@
 package org.springframework.context;
 
-import java.util.EventObject;
+import com.truthbean.debbie.event.DebbieStartedEvent;
 
-public abstract class ApplicationEvent extends EventObject {
+public abstract class ApplicationEvent extends DebbieStartedEvent {
 
     /**
      * use serialVersionUID from Spring 1.2 for interoperability.
      */
     private static final long serialVersionUID = 7099057708183571937L;
-
-    /**
-     * System time when the event happened.
-     */
-    private final long timestamp;
-
 
     /**
      * Create a new {@code ApplicationEvent}.
@@ -23,15 +17,6 @@ public abstract class ApplicationEvent extends EventObject {
      */
     public ApplicationEvent(Object source) {
         super(source);
-        this.timestamp = System.currentTimeMillis();
-    }
-
-
-    /**
-     * Return the system time in milliseconds when the event occurred.
-     */
-    public final long getTimestamp() {
-        return this.timestamp;
     }
 
 }

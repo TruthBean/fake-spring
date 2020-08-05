@@ -1,9 +1,9 @@
 package org.springframework.context;
 
-import java.util.EventListener;
+import com.truthbean.debbie.event.GenericStartedEventListener;
 
 @FunctionalInterface
-public interface ApplicationListener<E extends ApplicationEvent> extends EventListener {
+public interface ApplicationListener<E extends ApplicationEvent> extends GenericStartedEventListener<E> {
 
     /**
      * Handle an application event.

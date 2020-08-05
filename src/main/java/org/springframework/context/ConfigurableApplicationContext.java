@@ -14,5 +14,5 @@ package org.springframework.context;
  * @since 0.1.0
  * Created on 2020-06-23 13:59.
  */
-public interface ConfigurableApplicationContext {
+public class ConfigurableApplicationContext {
 }
