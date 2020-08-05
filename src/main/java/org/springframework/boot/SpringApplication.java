@@ -13,7 +13,8 @@ import com.truthbean.debbie.bean.BeanType;
 import com.truthbean.debbie.bean.DebbieBeanInfo;
 import com.truthbean.debbie.bean.GlobalBeanFactory;
 import com.truthbean.debbie.boot.DebbieApplication;
-import com.truthbean.debbie.boot.DebbieApplicationFactory;
+import com.truthbean.debbie.core.ApplicationContext;
+import com.truthbean.debbie.core.ApplicationFactory;
 import com.truthbean.debbie.event.DebbieEventPublisher;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -37,13 +38,14 @@ public class SpringApplication {
         beanInfo.setBean(new ApplicationStartedEvent(instance, args, new ConfigurableApplicationContext()));
         beanInfo.setBeanType(BeanType.SINGLETON);
         beanInfo.addBeanName("applicationStartedEvent");
-        DebbieApplicationFactory factory = DebbieApplicationFactory.configure(primarySource);
-        factory.getBeanInitialization().initSingletonBean(beanInfo);
-        factory.refreshBeans();
+        ApplicationFactory factory = ApplicationFactory.configure(primarySource);
+        ApplicationContext applicationContext = factory.getApplicationContext();
+        applicationContext.getBeanInitialization().initSingletonBean(beanInfo);
+        applicationContext.refreshBeans();
 
         // todo
         DebbieApplication application = factory.postCreateApplication();
-        GlobalBeanFactory globalBeanFactory = factory.getGlobalBeanFactory();
+        GlobalBeanFactory globalBeanFactory = applicationContext.getGlobalBeanFactory();
         DebbieEventPublisher eventPublisher = globalBeanFactory.factory("eventPublisher");
 
         application.start(args);

@@ -92,6 +92,11 @@ See the Mulan PSL v2 for more details.
             <artifactId>debbie-tomcat</artifactId>
             <version>0.1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.truthbean.logger</groupId>
+            <artifactId>logger-core</artifactId>
+            <version>0.1.0-RELEASE</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -153,7 +158,7 @@ See the Mulan PSL v2 for more details.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.9.0</version>
+                <version>3.9.1</version>
             </plugin>
 
             <plugin>
