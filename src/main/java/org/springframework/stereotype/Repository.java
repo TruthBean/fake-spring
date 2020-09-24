@@ -6,7 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.truthbean.debbie.bean.BeanAliceForValue;
 import com.truthbean.debbie.bean.BeanComponent;
 import org.springframework.core.annotation.AliasFor;
 
@@ -22,8 +21,7 @@ public @interface Repository {
      * to be turned into a Spring bean in case of an autodetected component.
      * @return the suggested component name, if any (or empty String otherwise)
      */
-    @AliasFor(annotation = Component.class)
-    @BeanAliceForValue()
+    @AliasFor(attribute = "value", annotation = Component.class)
     String value() default "";
 
 }

@@ -95,7 +95,7 @@ See the Mulan PSL v2 for more details.
         <dependency>
             <groupId>com.truthbean.logger</groupId>
             <artifactId>logger-core</artifactId>
-            <version>0.1.0-RELEASE</version>
+            <version>0.2.0-RELEASE</version>
         </dependency>
     </dependencies>
 
@@ -105,7 +105,7 @@ See the Mulan PSL v2 for more details.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.2.0</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <outputDirectory>${basedir}/target/classes</outputDirectory>

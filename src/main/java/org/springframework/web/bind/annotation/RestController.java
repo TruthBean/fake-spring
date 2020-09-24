@@ -1,5 +1,6 @@
 package org.springframework.web.bind.annotation;
 
+import com.truthbean.debbie.bean.BeanComponent;
 import com.truthbean.debbie.mvc.router.Router;
 import com.truthbean.debbie.watcher.Watcher;
 import com.truthbean.debbie.watcher.WatcherType;
@@ -15,6 +16,7 @@ import java.lang.annotation.Target;
 @Documented
 @Watcher(type = WatcherType.HTTP)
 @Router
+@BeanComponent
 public @interface RestController {
 
     String value() default "";

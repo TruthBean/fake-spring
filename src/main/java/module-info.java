@@ -34,4 +34,9 @@ module com.truthbean.debbie.fake_spring {
     exports org.springframework.web.multipart;
 
     requires transitive com.truthbean.debbie.mvc;
+
+    provides com.truthbean.debbie.mvc.router.RouterAnnotationParser
+            with com.truthbean.debbie.fakespring.mvc.RequestMappingRouterParser;
+    provides com.truthbean.debbie.mvc.request.RequestParameterParser
+            with com.truthbean.debbie.fakespring.mvc.SpringRequestParameterParser;
 }
