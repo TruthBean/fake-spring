@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (c) 2020 TruthBean(Rogar·Q)
+<!-- Copyright (c) 2021 TruthBean(Rogar·Q)
 Debbie is licensed under Mulan PSL v2.
 You can use this software according to the terms and conditions of the Mulan PSL v2.
 You may obtain a copy of Mulan PSL v2 at:
@@ -12,9 +12,14 @@ See the Mulan PSL v2 for more details.
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>com.truthbean</groupId>
+        <artifactId>parent</artifactId>
+        <version>0.5.0-SNAPSHOT</version>
+    </parent>
+
     <groupId>com.truthbean.debbie</groupId>
     <artifactId>fake-spring</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
 
     <name>fake-spring</name>
     <description>fake spring, real debbie, just a joke</description>
@@ -70,7 +75,6 @@ See the Mulan PSL v2 for more details.
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.6</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -86,16 +90,33 @@ See the Mulan PSL v2 for more details.
         </profile>
     </profiles>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.truthbean</groupId>
+                <artifactId>debbie-dependencies</artifactId>
+                <version>${truthbean.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <dependency>
+                <groupId>com.truthbean</groupId>
+                <artifactId>logger-dependencies</artifactId>
+                <version>${truthbean.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
-            <groupId>com.truthbean.debbie</groupId>
+            <groupId>com.truthbean</groupId>
             <artifactId>debbie-tomcat</artifactId>
-            <version>0.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.truthbean.logger</groupId>
-            <artifactId>logger-core</artifactId>
-            <version>0.2.0-RELEASE</version>
+            <groupId>com.truthbean</groupId>
+            <artifactId>stdout-boot</artifactId>
         </dependency>
     </dependencies>
 
@@ -105,7 +126,6 @@ See the Mulan PSL v2 for more details.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.2.0</version>
                 <configuration>
                     <encoding>UTF-8</encoding>
                     <outputDirectory>${basedir}/target/classes</outputDirectory>
@@ -122,49 +142,41 @@ See the Mulan PSL v2 for more details.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.1.2</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>3.1.0</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
-                <version>2.5.2</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.2</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
-                <version>3.9.1</version>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
                 <executions>
                     <execution>
                         <id>default-compile</id>
@@ -199,7 +211,6 @@ See the Mulan PSL v2 for more details.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.2.1</version>
                 <configuration>
                     <attach>true</attach>
                 </configuration>
@@ -215,7 +226,6 @@ See the Mulan PSL v2 for more details.
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
                 <configuration>
                     <attach>true</attach>
                     <charset>UTF-8</charset>

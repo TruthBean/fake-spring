@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020 TruthBean(Rogar·Q)
+ * Copyright (c) 2021 TruthBean(Rogar·Q)
  * Debbie is licensed under Mulan PSL v2.
  * You can use this software according to the terms and conditions of the Mulan PSL v2.
  * You may obtain a copy of Mulan PSL v2 at:
@@ -34,12 +34,12 @@ public class SpringApplication {
     public static void run(Class<?> primarySource, String... args) {
         System.setProperty("debbie.web.default.response.allow-client", "true");
         System.setProperty("debbie.web.default.response.types", "application/json;Charset=UTF-8");
-        DebbieBeanInfo<ApplicationStartedEvent> beanInfo = new DebbieBeanInfo<>(ApplicationStartedEvent.class);
-        beanInfo.setBean(new ApplicationStartedEvent(instance, args, new ConfigurableApplicationContext()));
-        beanInfo.setBeanType(BeanType.SINGLETON);
-        beanInfo.addBeanName("applicationStartedEvent");
         ApplicationFactory factory = ApplicationFactory.configure(primarySource);
         ApplicationContext applicationContext = factory.getApplicationContext();
+        DebbieBeanInfo<ApplicationStartedEvent> beanInfo = new DebbieBeanInfo<>(ApplicationStartedEvent.class);
+        beanInfo.setBean(new ApplicationStartedEvent(instance, args, new ConfigurableApplicationContext(applicationContext)));
+        beanInfo.setBeanType(BeanType.SINGLETON);
+        beanInfo.addBeanName("applicationStartedEvent");
         applicationContext.getBeanInitialization().initSingletonBean(beanInfo);
         applicationContext.refreshBeans();
 
@@ -48,6 +48,6 @@ public class SpringApplication {
         GlobalBeanFactory globalBeanFactory = applicationContext.getGlobalBeanFactory();
         DebbieEventPublisher eventPublisher = globalBeanFactory.factory("eventPublisher");
 
-        application.start(args);
+        application.start();
     }
 }

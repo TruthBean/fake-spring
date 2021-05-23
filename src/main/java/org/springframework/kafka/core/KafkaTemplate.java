@@ -7,21 +7,14 @@
  * THIS SOFTWARE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO NON-INFRINGEMENT, MERCHANTABILITY OR FIT FOR A PARTICULAR PURPOSE.
  * See the Mulan PSL v2 for more details.
  */
-package org.springframework.scheduling.annotation;
-
-import java.lang.annotation.*;
+package org.springframework.kafka.core;
 
 /**
  * @author TruthBean/Rogar·Q
  * @since 0.1.0
- * Created on 2020-06-23 11:21.
+ * Created on 2020-09-24 17:50
  */
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-public @interface EnableAsync {
+public interface KafkaTemplate<K, V> {
 
-    Class<? extends Annotation> annotation() default Annotation.class;
-
-    boolean proxyTargetClass() default false;
+    void send(String topic, V data);
 }

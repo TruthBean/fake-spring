@@ -2,7 +2,7 @@ package com.truthbean.spring.test;
 
 import com.truthbean.Logger;
 import com.truthbean.debbie.event.EventBeanListener;
-import com.truthbean.logger.LoggerFactory;
+import com.truthbean.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;

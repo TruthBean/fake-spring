@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020 TruthBean(Rogar·Q)
+ * Copyright (c) 2021 TruthBean(Rogar·Q)
  * Debbie is licensed under Mulan PSL v2.
  * You can use this software according to the terms and conditions of the Mulan PSL v2.
  * You may obtain a copy of Mulan PSL v2 at:
@@ -29,8 +29,18 @@ public class RequestMappingRouterParser implements RouterAnnotationParser {
     public RouterAnnotationInfo parse(Method method) {
         boolean hasResponseBody = false;
         var responseBody = method.getAnnotation(ResponseBody.class);
+        String[] prefix = null;
         if (responseBody == null) {
             Class<?> declaringClass = method.getDeclaringClass();
+            RequestMapping requestMapping = declaringClass.getAnnotation(RequestMapping.class);
+            if (requestMapping != null) {
+                String[] value = requestMapping.value();
+                if (value.length > 0) {
+                    prefix = value;
+                } else {
+                    prefix = requestMapping.path();
+                }
+            }
             responseBody = declaringClass.getAnnotation(ResponseBody.class);
             if (responseBody == null) {
                 RestController annotation = declaringClass.getAnnotation(RestController.class);
@@ -46,28 +56,45 @@ public class RequestMappingRouterParser implements RouterAnnotationParser {
         PostMapping postMapping = method.getAnnotation(PostMapping.class);
         PutMapping putMapping = method.getAnnotation(PutMapping.class);
         if (requestMapping != null) {
-            return parse(requestMapping, hasResponseBody);
+            return parse(prefix, requestMapping, hasResponseBody);
         } else if (deleteMapping != null) {
-            return parse(deleteMapping, hasResponseBody);
+            return parse(prefix, deleteMapping, hasResponseBody);
         } else if (getMapping != null) {
-            return parse(getMapping, hasResponseBody);
+            return parse(prefix, getMapping, hasResponseBody);
         } else if (postMapping != null) {
-            return parse(postMapping, hasResponseBody);
+            return parse(prefix, postMapping, hasResponseBody);
         } else if (putMapping != null) {
-            return parse(putMapping, hasResponseBody);
+            return parse(prefix, putMapping, hasResponseBody);
         }
 
         return null;
     }
 
-    public RouterAnnotationInfo parse(RequestMapping requestMapping, boolean hasResponseBody) {
+    public RouterAnnotationInfo parse(String[] prefix, RequestMapping requestMapping, boolean hasResponseBody) {
         var info = new RouterAnnotationInfo();
         var consumes = requestMapping.consumes();
         var produces = requestMapping.produces();
         var method = requestMapping.method();
-        info.setName(requestMapping.name())
-                .setValue(requestMapping.value())
-                .setUrlPatterns(requestMapping.path());
+        info.setName(requestMapping.name());
+        String[] v = requestMapping.value();
+        if (v.length == 0) {
+            v = requestMapping.path();
+        }
+        if (prefix != null && prefix.length > 0 && v.length > 0) {
+            String[] path = new String[prefix.length * v.length];
+            int i = 0;
+            for (String s : prefix) {
+                for (String s1 : v) {
+                    path[i++] = s + "/" + s1;
+                }
+            }
+            info.setValue(path);
+        } else if (v.length > 0) {
+            info.setValue(v);
+        } else {
+            info.setValue(prefix);
+        }
+
         if (method.length > 0) {
             info.setMethod(Arrays.stream(method).map(RequestMethod::toHttpMethod).toArray(value -> new HttpMethod[0]));
         } else {
@@ -89,14 +116,30 @@ public class RequestMappingRouterParser implements RouterAnnotationParser {
         return info;
     }
 
-    public RouterAnnotationInfo parse(DeleteMapping requestMapping, boolean hasResponseBody) {
+    public RouterAnnotationInfo parse(String[] prefix, DeleteMapping requestMapping, boolean hasResponseBody) {
         var info = new RouterAnnotationInfo();
         var consumes = requestMapping.consumes();
         var produces = requestMapping.produces();
-        info.setName(requestMapping.name())
-                .setValue(requestMapping.value())
-                .setUrlPatterns(requestMapping.path())
-                .setMethod(Collections.singleton(HttpMethod.DELETE));
+        info.setName(requestMapping.name());
+        String[] v = requestMapping.value();
+        if (v.length == 0) {
+            v = requestMapping.path();
+        }
+        if (prefix != null && prefix.length > 0 && v.length > 0) {
+            String[] path = new String[prefix.length * v.length];
+            int i = 0;
+            for (String s : prefix) {
+                for (String s1 : v) {
+                    path[i++] = s + "/" + s1;
+                }
+            }
+            info.setValue(path);
+        } else if (v.length > 0) {
+            info.setValue(v);
+        } else {
+            info.setValue(prefix);
+        }
+        info.setMethod(Collections.singleton(HttpMethod.DELETE));
         if (consumes.length > 0) {
             info.setRequestType(consumes[0]);
         } else {
@@ -113,14 +156,30 @@ public class RequestMappingRouterParser implements RouterAnnotationParser {
         return info;
     }
 
-    public RouterAnnotationInfo parse(GetMapping requestMapping, boolean hasResponseBody) {
+    public RouterAnnotationInfo parse(String[] prefix, GetMapping requestMapping, boolean hasResponseBody) {
         var info = new RouterAnnotationInfo();
         var consumes = requestMapping.consumes();
         var produces = requestMapping.produces();
-        info.setName(requestMapping.name())
-                .setValue(requestMapping.value())
-                .setUrlPatterns(requestMapping.path())
-                .setMethod(Collections.singleton(HttpMethod.DELETE));
+        info.setName(requestMapping.name());
+        String[] v = requestMapping.value();
+        if (v.length == 0) {
+            v = requestMapping.path();
+        }
+        if (prefix != null && prefix.length > 0 && v.length > 0) {
+            String[] path = new String[prefix.length * v.length];
+            int i = 0;
+            for (String s : prefix) {
+                for (String s1 : v) {
+                    path[i++] = s + "/" + s1;
+                }
+            }
+            info.setValue(path);
+        } else if (v.length > 0) {
+            info.setValue(v);
+        } else {
+            info.setValue(prefix);
+        }
+        info.setMethod(Collections.singleton(HttpMethod.DELETE));
         if (consumes.length > 0) {
             info.setRequestType(consumes[0]);
         } else {
@@ -137,14 +196,30 @@ public class RequestMappingRouterParser implements RouterAnnotationParser {
         return info;
     }
 
-    public RouterAnnotationInfo parse(PostMapping requestMapping, boolean hasResponseBody) {
+    public RouterAnnotationInfo parse(String[] prefix, PostMapping requestMapping, boolean hasResponseBody) {
         var info = new RouterAnnotationInfo();
         var consumes = requestMapping.consumes();
         var produces = requestMapping.produces();
-        info.setName(requestMapping.name())
-                .setValue(requestMapping.value())
-                .setUrlPatterns(requestMapping.path())
-                .setMethod(Collections.singleton(HttpMethod.DELETE));
+        info.setName(requestMapping.name());
+        String[] v = requestMapping.value();
+        if (v.length == 0) {
+            v = requestMapping.path();
+        }
+        if (prefix != null && prefix.length > 0 && v.length > 0) {
+            String[] path = new String[prefix.length * v.length];
+            int i = 0;
+            for (String s : prefix) {
+                for (String s1 : v) {
+                    path[i++] = s + "/" + s1;
+                }
+            }
+            info.setValue(path);
+        } else if (v.length > 0) {
+            info.setValue(v);
+        } else {
+            info.setValue(prefix);
+        }
+        info.setMethod(Collections.singleton(HttpMethod.DELETE));
         if (consumes.length > 0) {
             info.setRequestType(consumes[0]);
         } else {
@@ -161,14 +236,30 @@ public class RequestMappingRouterParser implements RouterAnnotationParser {
         return info;
     }
 
-    public RouterAnnotationInfo parse(PutMapping requestMapping, boolean hasResponseBody) {
+    public RouterAnnotationInfo parse(String[] prefix, PutMapping requestMapping, boolean hasResponseBody) {
         var info = new RouterAnnotationInfo();
         var consumes = requestMapping.consumes();
         var produces = requestMapping.produces();
-        info.setName(requestMapping.name())
-                .setValue(requestMapping.value())
-                .setUrlPatterns(requestMapping.path())
-                .setMethod(Collections.singleton(HttpMethod.DELETE));
+        info.setName(requestMapping.name());
+        String[] v = requestMapping.value();
+        if (v.length == 0) {
+            v = requestMapping.path();
+        }
+        if (prefix != null && prefix.length > 0 && v.length > 0) {
+            String[] path = new String[prefix.length * v.length];
+            int i = 0;
+            for (String s : prefix) {
+                for (String s1 : v) {
+                    path[i++] = s + "/" + s1;
+                }
+            }
+            info.setValue(path);
+        } else if (v.length > 0) {
+            info.setValue(v);
+        } else {
+            info.setValue(prefix);
+        }
+        info.setMethod(Collections.singleton(HttpMethod.DELETE));
         if (consumes.length > 0) {
             info.setRequestType(consumes[0]);
         } else {

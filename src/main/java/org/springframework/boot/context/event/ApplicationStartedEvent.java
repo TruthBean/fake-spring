@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2020 TruthBean(Rogar·Q)
+ * Copyright (c) 2021 TruthBean(Rogar·Q)
  * Debbie is licensed under Mulan PSL v2.
  * You can use this software according to the terms and conditions of the Mulan PSL v2.
  * You may obtain a copy of Mulan PSL v2 at:
@@ -12,7 +12,6 @@ package org.springframework.boot.context.event;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-@SuppressWarnings("serial")
 public class ApplicationStartedEvent extends SpringApplicationEvent {
 
     private final ConfigurableApplicationContext context;
@@ -33,6 +32,7 @@ public class ApplicationStartedEvent extends SpringApplicationEvent {
      * Return the application context.
      * @return the context
      */
+    @Override
     public ConfigurableApplicationContext getApplicationContext() {
         return this.context;
     }
